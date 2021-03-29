@@ -1,21 +1,29 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useState, useEffect, useRef } from 'react';
-import { 
-  Container, Row, Col, 
-  Button, Form, FormGroup, Label, Input,
-  Navbar, NavbarBrand, } from 'reactstrap';
+import * as React from "react";
+import { useState, useEffect, useRef } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Navbar,
+  NavbarBrand
+} from "reactstrap";
 
-import '@tomtom-international/web-sdk-maps/dist/maps.css'
-import  * as tt  from '@tomtom-international/web-sdk-maps';
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
+import * as tt from "@tomtom-international/web-sdk-maps";
 
-const MAX_ZOOM = 15;
+const MAX_ZOOM = 17;
 
 function App() {
   const mapElement = useRef();
   const [mapLongitude, setMapLongitude] = useState(-121.91599);
-  const [mapLatitude, setMapLatitude] = useState(37.36765)
+  const [mapLatitude, setMapLatitude] = useState(37.36765);
   const [mapZoom, setMapZoom] = useState(13);
   const [map, setMap] = useState({});
 
@@ -23,36 +31,38 @@ function App() {
     if (mapZoom < MAX_ZOOM) {
       setMapZoom(mapZoom + 1);
     }
-  }
+  };
 
   const decreaseZoom = () => {
-    if(mapZoom > 1) {
+    if (mapZoom > 1) {
       setMapZoom(mapZoom - 1);
     }
-  }
-  
+  };
+
   const updateMap = () => {
     map.setCenter([mapLongitude, mapLatitude]);
     map.setZoom(mapZoom);
-  }
+  };
 
   useEffect(() => {
-      let map = tt.map({
-        key: 'nG6oY1L34rbTfoLz0D205CrB42a3mf8m',
-        container: mapElement.current,
-        center: [mapLongitude, mapLatitude],
-        zoom: mapZoom
-      });
-      setMap(map);
-      return () => map.remove();
-    }, []);
+    let map = tt.map({
+      /* 
+      This key will API key only works on this Stackblitz. To use this code in your own project,
+      sign up for an API key on the TomTom Developer Portal.
+      */
+      key: "nG6oY1L34rbTfoLz0D205CrB42a3mf8m",
+      container: mapElement.current,
+      center: [mapLongitude, mapLatitude],
+      zoom: mapZoom
+    });
+    setMap(map);
+    return () => map.remove();
+  }, []);
 
   return (
     <div className="App">
-      <Navbar dark={true} style={{backgroundColor: "#4287f5"}}>
-        <NavbarBrand>
-          TomTom Maps + React = 😃
-        </NavbarBrand>
+      <Navbar dark={true} style={{ backgroundColor: "#4287f5" }}>
+        <NavbarBrand>TomTom Maps + React = 😃</NavbarBrand>
       </Navbar>
       <Container className="mapContainer">
         <Row>
@@ -69,14 +79,20 @@ function App() {
             <Col xs="12">
               <Row>Zoom</Row>
               <Row>
-                <Button outline color="primary" onClick={decreaseZoom}>-</Button>
+                <Button outline color="primary" onClick={decreaseZoom}>
+                  -
+                </Button>
                 <div className="mapZoomDisplay">{mapZoom}</div>
-                <Button outline color="primary" onClick={increaseZoom}>+</Button>
+                <Button outline color="primary" onClick={increaseZoom}>
+                  +
+                </Button>
               </Row>
             </Col>
             <Col xs="12">
               <Row className="updateButton">
-                <Button color="primary" onClick={updateMap}>Update Map</Button>
+                <Button color="primary" onClick={updateMap}>
+                  Update Map
+                </Button>
               </Row>
             </Col>
           </Col>
