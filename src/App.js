@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Button,
-  Form,
   FormGroup,
   Label,
   Input,
@@ -19,7 +18,7 @@ import {
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import * as tt from "@tomtom-international/web-sdk-maps";
 
-const MAX_ZOOM = 15;
+const MAX_ZOOM = 17;
 
 function App() {
   const mapElement = useRef();
@@ -47,6 +46,10 @@ function App() {
 
   useEffect(() => {
     let map = tt.map({
+      /* 
+      This key will API key only works on this Stackblitz. To use this code in your own project,
+      sign up for an API key on the TomTom Developer Portal.
+      */
       key: "nG6oY1L34rbTfoLz0D205CrB42a3mf8m",
       container: mapElement.current,
       center: [mapLongitude, mapLatitude],
