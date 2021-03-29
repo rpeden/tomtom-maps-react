@@ -40,7 +40,7 @@ function App() {
   };
 
   const updateMap = () => {
-    map.setCenter([mapLongitude, mapLatitude]);
+    map.setCenter([parseFloat(mapLongitude), parseFloat(mapLatitude)]);
     map.setZoom(mapZoom);
   };
 
@@ -70,11 +70,21 @@ function App() {
             <h4>Map Controls</h4>
             <FormGroup>
               <Label for="longitude">Longitude</Label>
-              <Input type="text" name="longitude" value={mapLongitude} />
+              <Input
+                type="text"
+                name="longitude"
+                value={mapLongitude}
+                onChange={(e) => setMapLongitude(e.target.value)}
+              />
             </FormGroup>
             <FormGroup>
               <Label for="latitude">Latitude</Label>
-              <Input type="text" name="latitude" value={mapLatitude} />
+              <Input
+                type="text"
+                name="latitude"
+                value={mapLatitude}
+                onChange={(e) => setMapLatitude(e.target.value)}
+              />
             </FormGroup>
             <Col xs="12">
               <Row>Zoom</Row>
@@ -97,7 +107,7 @@ function App() {
             </Col>
           </Col>
           <Col xs="8">
-            <div ref={mapElement} className="mapDiv"></div>
+            <div ref={mapElement} className="mapDiv" />
           </Col>
         </Row>
       </Container>
