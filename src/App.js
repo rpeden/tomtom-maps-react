@@ -97,9 +97,7 @@ function App() {
             </Col>
           </Col>
           <Col xs="8">
-            <div ref={mapElement} className="mapDiv">
-              map goes here
-            </div>
+            <div ref={mapElement} className="mapDiv"></div>
           </Col>
         </Row>
       </Container>
