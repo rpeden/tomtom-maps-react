@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# TomTom Maps With React
+
+To use this as a base for your own project, simply change the API key in App.js to match your own TomTom API key.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

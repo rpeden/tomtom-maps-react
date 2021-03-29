@@ -1,23 +1,92 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { useState, useEffect, useRef } from 'react';
+import { 
+  Container, Row, Col, 
+  Button, Form, FormGroup, Label, Input,
+  Navbar, NavbarBrand, } from 'reactstrap';
+
+import '@tomtom-international/web-sdk-maps/dist/maps.css'
+import  * as tt  from '@tomtom-international/web-sdk-maps';
+
+const MAX_ZOOM = 15;
 
 function App() {
+  const mapElement = useRef();
+  const [mapLongitude, setMapLongitude] = useState(-121.91599);
+  const [mapLatitude, setMapLatitude] = useState(37.36765)
+  const [mapZoom, setMapZoom] = useState(13);
+  const [map, setMap] = useState({});
+
+  const increaseZoom = () => {
+    if (mapZoom < MAX_ZOOM) {
+      setMapZoom(mapZoom + 1);
+    }
+  }
+
+  const decreaseZoom = () => {
+    if(mapZoom > 1) {
+      setMapZoom(mapZoom - 1);
+    }
+  }
+  
+  const updateMap = () => {
+    map.setCenter([mapLongitude, mapLatitude]);
+    map.setZoom(mapZoom);
+  }
+
+  useEffect(() => {
+      let map = tt.map({
+        key: 'nG6oY1L34rbTfoLz0D205CrB42a3mf8m',
+        container: mapElement.current,
+        center: [mapLongitude, mapLatitude],
+        zoom: mapZoom
+      });
+      setMap(map);
+      return () => map.remove();
+    }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar dark={true} style={{backgroundColor: "#4287f5"}}>
+        <NavbarBrand>
+          TomTom Maps + React = 😃
+        </NavbarBrand>
+      </Navbar>
+      <Container className="mapContainer">
+        <Row>
+          <Col xs="4">
+            <h4>Map Controls</h4>
+            <FormGroup>
+              <Label for="longitude">Longitude</Label>
+              <Input type="text" name="longitude" value={mapLongitude} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="latitude">Latitude</Label>
+              <Input type="text" name="latitude" value={mapLatitude} />
+            </FormGroup>
+            <Col xs="12">
+              <Row>Zoom</Row>
+              <Row>
+                <Button outline color="primary" onClick={decreaseZoom}>-</Button>
+                <div className="mapZoomDisplay">{mapZoom}</div>
+                <Button outline color="primary" onClick={increaseZoom}>+</Button>
+              </Row>
+            </Col>
+            <Col xs="12">
+              <Row className="updateButton">
+                <Button color="primary" onClick={updateMap}>Update Map</Button>
+              </Row>
+            </Col>
+          </Col>
+          <Col xs="8">
+            <div ref={mapElement} className="mapDiv">
+              map goes here
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
